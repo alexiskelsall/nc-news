@@ -13,7 +13,12 @@ export const getArticles = () => {
 export const getArticleByID = (article_id) => {
     return ncNewsApi.get(`/articles/${article_id}`).then((res)=>{
         return res.data.article[0]
+    })
+}
 
+export const getCommentsByID = (article_id) => {
+    return ncNewsApi.get(`/articles/${article_id}/comments`).then((res)=>{
+        return res.data.comments
     })
 }
 
