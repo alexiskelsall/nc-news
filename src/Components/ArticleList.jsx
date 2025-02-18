@@ -1,21 +1,22 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { getArticles } from "../utils"
-import { useState } from 'react'
+import { Link } from "react-router-dom"
+
 
 
 function ArticleList (){
     const [articles, setArticles] = useState([])
+    const [loading, setLoading] = useState(true)
     
-
     useEffect(() => {
         getArticles().then((articlesFromApi)=>{
             setArticles(articlesFromApi)
-            console.log(articles)
-        })
-        
+            setLoading(false)
+        })     
 
     }, [])
     
+    if(loading) return <p>Loading...</p>
 
     return (
         <div>
@@ -28,7 +29,11 @@ function ArticleList (){
                             <button id="votes-button"> 0 Votes</button>
                             <button id="comments-button">Comments</button>
                             </div>
-                            <h2>{article.title}</h2>
+                            <h2>
+                                <Link to={`/articles/${article.article_id}`} id="article-article_id">
+                                {article.title}
+                                </Link>
+                            </h2>
                             <p>Written by {article.author}</p>
                             <p>Topic: {article.topic}</p>                            
                         </li>

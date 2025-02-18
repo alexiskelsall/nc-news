@@ -74,6 +74,16 @@ h1 {
 
 }
 
+#article-title {
+  color: black;
+}
+
+#article-title:hover {
+  text-decoration: underline; 
+}
+
+
+
 #article-card img {
   width: 100%;
   border-radius: 15px; 
