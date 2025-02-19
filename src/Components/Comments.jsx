@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react'
 import { getCommentsByID } from '../utils'
 
 
-
-
 function Comments ({article_id}){
     const [comments, setComments] = useState([])
     const [loading, setLoading] = useState(true)
@@ -19,7 +17,7 @@ function Comments ({article_id}){
 
     return (
         <>
-        <h3>Comments</h3>
+        <h4>Comments</h4>
         <section>
             <ul id="comment-list">
                 {comments.map((comment)=>{

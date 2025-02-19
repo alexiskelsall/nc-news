@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams } from "react-router-dom"
 import { getArticleByID } from '../utils'
 import Comments from './Comments'
+import Votes from './Votes'
 
 
 
@@ -23,8 +24,8 @@ function Article (){
         <section>
                 <img src={singleArticle.article_img_url} alt="Article image"/>
                 <div id="button-container">
-                            <button id="votes-button"> 0 Votes</button>
-                            <button id="comments-button">Add comment</button>
+                <Votes article_id={article_id} singleArticle={singleArticle} setSingleArticle={setSingleArticle}/>
+                <button id="comments-button">Add comment</button>
                 </div>
                 <h3>{singleArticle.title}</h3>
                 <p>Written by {singleArticle.author}</p>

@@ -3,7 +3,7 @@ import './App.css'
 import NavBar from './Components/NavBar'
 import ArticleList from './Components/ArticleList'
 import Article from './Components/Article'
-import Comments from './Components/Comments'
+
  
 
 function App() {
@@ -18,7 +18,6 @@ function App() {
       <Route path="/" element={<ArticleList />} />
       <Route path="/articles" element={<ArticleList />} />
       <Route path="/articles/:article_id" element={<Article />}/>
-      <Route path="/articles/:article_id/comments" element={<Comments />}/>
     </Routes>
 
     
