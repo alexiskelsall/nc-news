@@ -22,14 +22,14 @@ export const getCommentsByID = (article_id) => {
     })
 }
 
-export const getVotesByID = (article_id) => {
-    return ncNewsApi.get(`/articles/${article_id}`).then((res)=>{
-        return res.data.article[0].votes
+export const voteOnArticle = (article_id, vote)=>{
+    return ncNewsApi.patch(`/articles/${article_id}`, { inc_votes: vote }).then((res)=>{
+       return res.data.article.votes
     })
 }
 
-export const voteOnArticle = (article_id, vote)=>{
-    return ncNewsApi.patch(`/articles/${article_id}`, { inc_votes: vote }).then((res)=>{
-        return res.data.article.votes
+export const postCommentByID = (article_id, username, comment)=>{
+    return ncNewsApi.post(`/articles/${article_id}/comments`, {username: username, body: comment}).then((res)=>{
+        return res.data.newComment[0]
     })
 }

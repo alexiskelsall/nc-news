@@ -24,13 +24,13 @@ function Article (){
         <section>
                 <img src={singleArticle.article_img_url} alt="Article image"/>
                 <div id="button-container">
-                <Votes article_id={article_id} singleArticle={singleArticle} setSingleArticle={setSingleArticle}/>
-                <button id="comments-button">Add comment</button>
+                <Votes article_id={article_id} votes={singleArticle.votes} setSingleArticle={setSingleArticle}/>
                 </div>
                 <h3>{singleArticle.title}</h3>
                 <p>Written by {singleArticle.author}</p>
                 <p>Topic: {singleArticle.topic}</p> 
                 <p>{singleArticle.body}</p>
+               
                 <Comments article_id={article_id} />    
         </section>
     )    
