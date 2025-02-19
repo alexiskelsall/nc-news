@@ -1,17 +1,13 @@
-import { useEffect, useState } from "react"
-import { getVotesByID, voteOnArticle } from "../utils"
+import { useState } from "react"
+import {  voteOnArticle } from "../utils"
 
-function Votes ({article_id, setSingleArticle}){
-    const [voteCount, setVoteCount] = useState(0)
+function Votes ({article_id, votes }){
+    const [voteCount, setVoteCount] = useState(votes)
     const [hasVotedYes, setHasVotedYes] = useState(false)
     const [hasVotedNo, setHasVotedNo] = useState(false)
+    const [error, setError] = useState("")
     
-    useEffect(()=>{
-        getVotesByID(article_id).then((votesFromApi)=>{
-            setVoteCount(votesFromApi)
-        })
-
-    },[])
+    
     
     function handleIncVote (){
         if(hasVotedYes) return 
@@ -19,11 +15,10 @@ function Votes ({article_id, setSingleArticle}){
             setHasVotedYes(true)
             setHasVotedNo(false)
             setVoteCount((prevCount)=> prevCount + 1)
-            setSingleArticle((prevArticle)=>({...prevArticle, votes: prevArticle.votes + 1}))
-            voteOnArticle(article_id, 1).then((updatedVotes)=>{
-                setVoteCount(updatedVotes)
-            }).catch(()=>{
-                setVoteCount((prevCount => prevCount - 1))
+            voteOnArticle(article_id, 1)
+            .catch(()=>{
+                setError("Failed to add vote")
+                setVoteCount((prevCount) => prevCount - 1)
                 setHasVotedYes(false)
             })}
        
@@ -36,11 +31,10 @@ function Votes ({article_id, setSingleArticle}){
             setHasVotedNo(true)
             setHasVotedYes(false)
             setVoteCount((prevCount)=> prevCount - 1)
-            setSingleArticle((prevArticle)=>({...prevArticle, votes: prevArticle.votes - 1}))
-            voteOnArticle(article_id, -1).then((updatedVotes)=>{
-                setVoteCount(updatedVotes)
-            }).catch(()=>{
-                setVoteCount((prevCount => prevCount + 1))
+            voteOnArticle(article_id, -1)
+            .catch(()=>{
+                setError("Failed to add vote")
+                setVoteCount((prevCount) => prevCount + 1)
                 setHasVotedNo(false)
             })}
       
@@ -56,6 +50,7 @@ function Votes ({article_id, setSingleArticle}){
         <button id="unlike-button" onClick={handleDecVote}>
         👎
         </button>
+        {error && <p>{error}</p>}
       </>
       
     )
