@@ -33,3 +33,7 @@ export const postCommentByID = (article_id, username, comment)=>{
         return res.data.newComment[0]
     })
 }
+
+export const deleteArticleByID = (comment_id)=>{
+    return ncNewsApi.delete(`/comments/${comment_id}`)
+}
