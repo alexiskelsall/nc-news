@@ -4,7 +4,6 @@ import NavBar from './Components/NavBar'
 import ArticleList from './Components/ArticleList'
 import Article from './Components/Article'
 
- 
 
 function App() {
 
