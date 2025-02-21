@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
+import { data, Link } from "react-router-dom"
 import { useSearchParams } from "react-router-dom"
 import axios from "axios"
+import Error from './Error'
 
 
 function ArticleList (){
     const [articles, setArticles] = useState([]);
-    console.log(articles[0])
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const [searchParams, setSearchParams] = useSearchParams(); 
@@ -24,7 +24,7 @@ function ArticleList (){
                 params.set("topic", e.target.value); 
             }    
             return params;
-        });
+        })
     };
 
     const handleSort = (e) => {
@@ -52,8 +52,6 @@ function ArticleList (){
         if (sortBy) params.sort_by = sortBy;
         if (order) params.order = order;
 
-        console.log("API Request Params:", params);
-
         axios
             .get(`https://news-project-lza1.onrender.com/api/articles`, { params })
             .then((response) => {
@@ -61,14 +59,17 @@ function ArticleList (){
                 setLoading(false);
             })
             .catch((err) => {
-                console.log(err)
-                setError("Problem loading page");
+                console.log(err.response
+                )
+                setError("Oops! Something went wrong. Please check your filters and try again.");
                 setLoading(false);
             });
     }, [searchParams]); 
   
     if(loading) return <p>Loading...</p>
 
+    if(error) return <Error error={error}/>
+  
     return (
         <section>
             {error && <p>{error}</p>}
