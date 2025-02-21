@@ -11,6 +11,7 @@ function CommentsForm ({article_id, setComments}){
 
     const [newComment, setNewComment]= useState("")
     const [submissionMessage, setSubmissionMessage]=useState("")
+    const [addButton, setAddButton] = useState(true)
     const [error, setError]= useState("")
 
     const handleInput=(e)=>{
@@ -19,12 +20,14 @@ function CommentsForm ({article_id, setComments}){
 
     const handleSubmitComment=(e)=>{
         e.preventDefault()
+        setAddButton(false)
         postCommentByID(article_id, user.username, newComment)
         .then(()=>{
             setSubmissionMessage("Thank you for your comment!")
             setNewComment("") 
             setTimeout(()=>{
                 setSubmissionMessage("")
+                setAddButton(true)
             },3000)         
         })
         .catch(()=>{
@@ -36,7 +39,7 @@ function CommentsForm ({article_id, setComments}){
     return (
         <form id="comment-form" onSubmit={handleSubmitComment}>
             <input value={newComment} placeholder="Add a comment" onChange={handleInput} required/>
-            <button type="submit">Add</button>   
+            {addButton ? <button type="submit">Add</button> : <p></p>}  
             {submissionMessage && <p>{submissionMessage}</p>}   
             {error && <p>{error}</p>}       
         </form>

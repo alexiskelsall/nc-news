@@ -112,9 +112,17 @@ h1 {
   list-style: none;
 }
 
-.comment-card{
+.comment-card {
   border: 1px solid black; 
   border-radius: 15px; 
   padding: 10px; 
   margin: 15px;
 };
+
+#like-button {
+  background-color: #15c85d; 
+}
+
+#unlike-button {
+  background-color: #15c85d; 
+}
