@@ -1,5 +1,7 @@
 import { useState } from "react"
 import {  voteOnArticle } from "../utils"
+import '../App.css'
+
 
 function Votes ({article_id, votes }){
     const [voteCount, setVoteCount] = useState(votes)
@@ -8,46 +10,86 @@ function Votes ({article_id, votes }){
     const [error, setError] = useState("")
     
     
+    const handleIncVote= ()=>{
+        if (hasVotedNo) {
+            setVoteCount((prev) => prev + 2);
+            setHasVotedNo(false);
+            setHasVotedYes(true);
+            
+            voteOnArticle(article_id, 2).catch(() => {
+                setVoteCount((prev) => prev - 2);
+                setHasVotedNo(true);
+                setHasVotedYes(false);
+                setError("Failed to change vote.");
+            });
     
-    function handleIncVote (){
-        if(hasVotedYes) return 
-        else { 
-            setHasVotedYes(true)
-            setHasVotedNo(false)
-            setVoteCount((prevCount)=> prevCount + 1)
-            voteOnArticle(article_id, 1)
-            .catch(()=>{
-                setError("Failed to add vote")
-                setVoteCount((prevCount) => prevCount - 1)
-                setHasVotedYes(false)
-            })}
-       
-    }
-        
+        } else if (!hasVotedYes) {
+            setVoteCount((prev) => prev + 1);
+            setHasVotedYes(true);
+            setHasVotedNo(false);
     
-    function handleDecVote (){
-        if(hasVotedNo) return 
-        else {  
-            setHasVotedNo(true)
-            setHasVotedYes(false)
-            setVoteCount((prevCount)=> prevCount - 1)
-            voteOnArticle(article_id, -1)
-            .catch(()=>{
-                setError("Failed to add vote")
-                setVoteCount((prevCount) => prevCount + 1)
-                setHasVotedNo(false)
-            })}
-      
+            voteOnArticle(article_id, 1).catch(() => {
+                setVoteCount((prev) => prev - 1);
+                setHasVotedYes(false);
+                setError("Failed to upvote.");
+            });
+    
+        } else {
+            setVoteCount((prev) => prev - 1);
+            setHasVotedYes(false);
+    
+            voteOnArticle(article_id, -1).catch(() => {
+                setVoteCount((prev) => prev + 1);
+                setHasVotedYes(true);
+                setError("Failed to remove upvote.");
+            });
+        }
     }
 
+    const handleDecVote =()=>{
+        if (hasVotedYes) {
+            setVoteCount((prev) => prev - 2);
+            setHasVotedYes(false);
+            setHasVotedNo(true);
+    
+            voteOnArticle(article_id, -2).catch(() => {
+                setVoteCount((prev) => prev + 2);
+                setHasVotedYes(true);
+                setHasVotedNo(false);
+                setError("Failed to change vote.");
+            });
+    
+        } else if (!hasVotedNo) {
+            setVoteCount((prev) => prev - 1);
+            setHasVotedNo(true);
+            setHasVotedYes(false);
+    
+            voteOnArticle(article_id, -1).catch(() => {
+                setVoteCount((prev) => prev + 1);
+                setHasVotedNo(false);
+                setError("Failed to downvote.");
+            });
+    
+        } else {
+            setVoteCount((prev) => prev + 1);
+            setHasVotedNo(false);
+    
+            voteOnArticle(article_id, 1).catch(() => {
+                setVoteCount((prev) => prev - 1);
+                setHasVotedNo(true);
+                setError("Failed to remove downvote.");
+            });
+        }
+    }
+    
 
     return (
         <>
         <p>Votes: {voteCount}</p>
-        <button id="like-button" onClick={handleIncVote}>
+        <button  onClick={handleIncVote} id={hasVotedYes ? "like-button" : ""}>
         👍
         </button>
-        <button id="unlike-button" onClick={handleDecVote}>
+        <button  onClick={handleDecVote} id={hasVotedNo ? "unlike-button" : ""}>
         👎
         </button>
         {error && <p>{error}</p>}
