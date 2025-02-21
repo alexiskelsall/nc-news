@@ -19,6 +19,7 @@ function CommentsForm ({article_id, setComments}){
     }
 
     const handleSubmitComment=(e)=>{
+        setError("")
         e.preventDefault()
         setAddButton(false)
         postCommentByID(article_id, user.username, newComment)
@@ -35,7 +36,6 @@ function CommentsForm ({article_id, setComments}){
         })
     }
     
-
     return (
         <form id="comment-form" onSubmit={handleSubmitComment}>
             <input value={newComment} placeholder="Add a comment" onChange={handleInput} required/>
